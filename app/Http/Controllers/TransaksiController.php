@@ -31,7 +31,23 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = [
+            'id_outlet' => $request->input('id_outlet'),
+            'kode_invoice' => $request->input('kode_invoice'),
+            'id_member' => $request->input('id_member'),
+            'tanggal' => $request->input('tanggal'),
+            'batas_waktu' => $request->input('batas_waktu'),
+            'tgl_bayar' => $request->input('tgl_bayar'),
+            'biaya_tambahan' => $request->input('biaya_tambahan'),
+            'diskon' => $request->input('diskon'),
+            'pajak' => $request->input('pajak'),
+            'status' => $request->input('status'),
+            'dibayar' => $request->input('dibayar'),
+            'id_user' => $request->input('id_user')
+        ];
+
+        Transaksi::create($data);
+        return back()->with('message_delete', 'Data Transaksi Sudah dibuat');
     }
 
     /**
@@ -55,7 +71,24 @@ class TransaksiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = [
+            'id_outlet' => $request->input('id_outlet'),
+            'kode_invoice' => $request->input('kode_invoice'),
+            'id_member' => $request->input('id_member'),
+            'tanggal' => $request->input('tanggal'),
+            'batas_waktu' => $request->input('batas_waktu'),
+            'tgl_bayar' => $request->input('tgl_bayar'),
+            'biaya_tambahan' => $request->input('biaya_tambahan'),
+            'diskon' => $request->input('diskon'),
+            'pajak' => $request->input('pajak'),
+            'status' => $request->input('status'),
+            'dibayar' => $request->input('dibayar'),
+            'id_user' => $request->input('id_user')
+        ];
+
+        $datas = Transaksi::findOrFail($id);
+        $datas->update($data);
+        return back()->with('message_delete', 'Data Transaksi Sudah diupdate');
     }
 
     /**
@@ -63,6 +96,8 @@ class TransaksiController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $data = Transaksi::findOrFail($id);
+        $data->delete();
+        return back()->with('message_delete','Data Transaksi Sudah dihapus');
     }
 }
