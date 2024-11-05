@@ -23,7 +23,10 @@ class TransaksiController extends Controller
      */
     public function create()
     {
-        //
+        $transaksi = Transaksi::all();
+        return view('page.transaksi.create')->with([
+            'transaksi' => $transaksi
+        ]);
     }
 
     /**
@@ -70,7 +73,7 @@ class TransaksiController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
+    {   
         $data = [
             'id_outlet' => $request->input('id_outlet'),
             'kode_invoice' => $request->input('kode_invoice'),
