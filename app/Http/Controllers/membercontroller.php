@@ -68,8 +68,8 @@ class membercontroller extends Controller
             'jenis_kelamin' => $request->input('jenis_kelamin')
         ];
 
-        $datas = member::findOrFail($id);
-        $datas->update($data);
+        $data = member::findOrFail($id);
+        $data->update($data);
         return back()->with('message_delete', 'Data Member Sudah diupdate');
     }
 

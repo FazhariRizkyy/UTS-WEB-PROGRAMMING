@@ -31,7 +31,15 @@ class PaketController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = [
+            'id_paket' => $request->input('id_paket'),
+            'jenis' => $request->input('jenis'),
+            'nama_paket' => $request->input('nama_paket'),
+        ];
+
+        paket::create($data);
+
+        return back()->with('message_delete', 'Data Konsumen Sudah dihapus');
     }
 
     /**
@@ -55,7 +63,15 @@ class PaketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = [
+            'id_paket' => $request->input('id_paket'),
+            'jenis' => $request->input('jenis'),
+            'nama_paket' => $request->input('nama_paket'),
+        ];
+
+        $datas = paket::findOrFail($id);
+        $datas->update($data);
+        return back()->with('message_delete', 'Data Paket Sudah dihapus');
     }
 
     /**
@@ -63,6 +79,8 @@ class PaketController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $data = paket::findOrFail($id);
+        $data->delete();
+        return back()->with('message_delete','Data Konsumen Sudah dihapus');
     }
 }

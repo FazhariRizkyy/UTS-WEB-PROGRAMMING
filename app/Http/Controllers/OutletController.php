@@ -31,7 +31,14 @@ class OutletController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = [
+            'nama' => $request->input('nama'),
+            'alamat' => $request->input('alamat'),
+        ];
+
+        Outlet::create($data);
+
+        return back()->with('message_delete', 'Data Outlet Sudah dihapus');
     }
 
     /**
@@ -55,7 +62,14 @@ class OutletController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = [
+            'nama' => $request->input('nama'),
+            'alamat' => $request->input('alamat'),
+        ];
+
+        $data = Outlet::findOrFail($id);
+        $data->update($data);
+        return back()->with('message_delete', 'Data Outlet Sudah diupdate');
     }
 
     /**
@@ -63,6 +77,8 @@ class OutletController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $data = Outlet::findOrFail($id);
+        $data->delete();
+        return back()->with('message_delete','Data Outlet Sudah dihapus');
     }
 }
