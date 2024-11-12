@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Outlet;
 use App\Models\Paket;
 use Illuminate\Http\Request;
 
@@ -13,9 +14,11 @@ class PaketController extends Controller
     public function index()
     {
         $paket = Paket::paginate(5);
+        $outlet = Outlet::all();
         return view('page.paket.index')->with([
             'paket' => $paket,
-    ]);
+            'outlet' => $outlet
+        ]);
     }
 
     /**
@@ -32,14 +35,14 @@ class PaketController extends Controller
     public function store(Request $request)
     {
         $data = [
-            'id_paket' => $request->input('id_paket'),
+            'id_outlet' => $request->input('id_outlet'),
             'jenis' => $request->input('jenis'),
             'nama_paket' => $request->input('nama_paket'),
         ];
 
         paket::create($data);
 
-        return back()->with('message_delete', 'Data Konsumen Sudah dihapus');
+        return back()->with('message_delete', 'Data Paket Sudah dihapus');
     }
 
     /**
@@ -64,7 +67,7 @@ class PaketController extends Controller
     public function update(Request $request, string $id)
     {
         $data = [
-            'id_paket' => $request->input('id_paket'),
+            'id_outlet' => $request->input('id_outlet_edit'),
             'jenis' => $request->input('jenis'),
             'nama_paket' => $request->input('nama_paket'),
         ];
@@ -79,8 +82,8 @@ class PaketController extends Controller
      */
     public function destroy(string $id)
     {
-        $data = paket::findOrFail($id);
+        $data = Paket::findOrFail($id);
         $data->delete();
-        return back()->with('message_delete','Data Konsumen Sudah dihapus');
+        return back()->with('message_delete','Data paket Sudah dihapus');
     }
 }

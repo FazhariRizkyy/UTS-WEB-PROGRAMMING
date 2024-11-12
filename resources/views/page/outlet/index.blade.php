@@ -11,10 +11,10 @@
                 <div class="p-4 text-white font-bold text-2xl mx-auto">
                     <div>DATA OUTLET</div>  <!-- Judul Data -->
                 </div>
-                <div class="p-6 text-gray-900 dark:text-gray-100 flex gap-5">
+                <div class="p-6 text-gray-900 dark:text-gray-900 flex gap-5">
                     {{-- FORM ADD OUTLET --}}
                     <div class="w-full bg-gray-900 p-4 rounded-xl">
-                        <div class="mb-5">
+                        <div class="mb-5 text-white">
                             INPUT DATA OUTLET <!-- Judul Form -->
                         </div>
                         <form action="{{ route('outlet.store') }}" method="post">

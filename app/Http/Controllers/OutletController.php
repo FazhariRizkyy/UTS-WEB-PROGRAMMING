@@ -14,7 +14,7 @@ class OutletController extends Controller
     {
         $outlet = Outlet::paginate(5);
         return view('page.outlet.index')->with([
-            'outlet' => $outlet,
+            'outlet' => $outlet
     ]);
     }
 
