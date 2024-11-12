@@ -61,17 +61,29 @@ class membercontroller extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        $data = [
-            'nama' => $request->input('nama'),
-            'alamat' => $request->input('alamat'),
-            'jenis_kelamin' => $request->input('jenis_kelamin')
-        ];
+{
+    // Validasi data jika diperlukan
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'alamat' => 'required|string|max:255',
+        'jenis_kelamin' => 'required|string|max:10', // Sesuaikan dengan kebutuhan
+    ]);
 
-        $data = member::findOrFail($id);
-        $data->update($data);
-        return back()->with('message_delete', 'Data Member Sudah diupdate');
-    }
+    // Temukan member berdasarkan ID
+    $member = member::findOrFail($id);
+
+    // Data yang ingin diperbarui
+    $data = [
+        'nama' => $request->input('nama'),
+        'alamat' => $request->input('alamat'),
+        'jenis_kelamin' => $request->input('jenis_kelamin')
+    ];
+
+    // Memperbarui member
+    $member->update($data);
+
+    return back()->with('message_delete', 'Data Member Sudah diupdate');
+}
 
     /**
      * Remove the specified resource from storage.

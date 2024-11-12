@@ -61,16 +61,27 @@ class OutletController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        $data = [
-            'nama' => $request->input('nama'),
-            'alamat' => $request->input('alamat'),
-        ];
+{
+    // Validasi data jika diperlukan
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'alamat' => 'required|string|max:255',
+    ]);
 
-        $data = Outlet::findOrFail($id);
-        $data->update($data);
-        return back()->with('message_delete', 'Data Outlet Sudah diupdate');
-    }
+    // Temukan outlet berdasarkan ID
+    $outlet = Outlet::findOrFail($id);
+
+    // Data yang ingin diperbarui
+    $data = [
+        'nama' => $request->input('nama'),
+        'alamat' => $request->input('alamat'),
+    ];
+
+    // Memperbarui outlet
+    $outlet->update($data);
+
+    return back()->with('message_delete', 'Data Outlet Sudah diupdate');
+}
 
     /**
      * Remove the specified resource from storage.
