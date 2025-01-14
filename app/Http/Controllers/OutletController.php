@@ -38,10 +38,10 @@ class OutletController extends Controller
 
         Outlet::create($data);
 
-        return back()->with('message_delete', 'Data Outlet Sudah dihapus');
+        return back()->with('message', 'Data Outlet sudah ditambahkan');
     }
 
-    /**
+    /*
      * Display the specified resource.
      */
     public function show(string $id)
@@ -80,7 +80,7 @@ class OutletController extends Controller
     // Memperbarui outlet
     $outlet->update($data);
 
-    return back()->with('message_delete', 'Data Outlet Sudah diupdate');
+    return back()->with('message_update', 'Data Outlet Sudah diupdate');
 }
 
     /**

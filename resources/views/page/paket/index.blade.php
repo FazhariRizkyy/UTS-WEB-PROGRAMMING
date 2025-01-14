@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-900 leading-tight">
             {{ __('PAKET') }}
         </h2>
     </x-slot>
@@ -8,12 +8,12 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-4 items-center  text-white font-bold text-2xl mx-auto">
+                <div class="p-4 items-center text-white dark:text-gray-100">
                     <div>DATA PAKET</div>
                 </div>
                 <div class="p-6 text-gray-900 dark:text-gray-100 flex gap-5">
                     {{-- FORM ADD --}}
-                    <div class="w-full bg-gray-900 p-4 rounded-xl">
+                    <div class="w-full bg-gray-500 p-4 rounded-xl">
                         <div class="mb-5">
                             INPUT DATA PAKET
                         </div>
@@ -55,7 +55,14 @@
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Paket</label>
                                 <input name="nama_paket" type="text" id="base-input"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Masukan Nama Paket disini...">
+                                    placeholder="Masukan Nama Paket disini..." required>
+                            </div>
+                            <div class="mb-5">
+                                <label for="base-input"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Harga</label>
+                                <input name="harga" type="number" id="base-input"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Masukan Harga disini..." required>
                             </div>
                             <button type="submit"
                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">SIMPAN</button>
@@ -81,7 +88,10 @@
                                             NAMA PAKET
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-
+                                            HARGA
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            
                                         </th>
                                     </tr>
                                 </thead>
@@ -106,11 +116,15 @@
                                                 {{ $p->nama_paket }}
                                             </td>
                                             <td class="px-6 py-4">
+                                                {{ $p->harga }}
+                                            </td>
+                                            <td class="px-6 py-4">
                                                 <button type="button" data-id="{{ $p->id }}"
                                                     data-modal-target="sourceModal"
                                                     data-id_outlet="{{ $p->id_outlet }}"
                                                     data-jenis="{{ $p->jenis }}" 
-                                                    data-nama_paket="{{ $p->nama_paket }}" onclick="editSourceModal(this)"
+                                                    data-nama_paket="{{ $p->nama_paket }}"
+                                                    data-harga="{{ $p->harga }}" onclick="editSourceModal(this)"
                                                     class="bg-amber-500 hover:bg-amber-600 px-3 py-1 rounded-md text-xs text-white">
                                                     Edit
                                                 </button>
@@ -131,7 +145,7 @@
             </div>
         </div>
     </div>
-    <div class="fixed inset-0 flex items-center justify-center z-50 hidden" id="sourceModal">
+    <div class="fixed inset-0 hidden items-center justify-center z-50 " id="sourceModal">
         <div class="fixed inset-0 bg-black opacity-50"></div>
         <div class="fixed inset-0 flex items-center justify-center">
             <div class="w-full md:w-1/2 relative bg-white rounded-lg shadow mx-5">
@@ -163,7 +177,7 @@
                             <label for="jenis"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis</label>
                             <select class="js-example-placeholder-single js-states form-control w-full m-6"
-                                name="jenis" id="jenis" data-placeholder="Pilih Jenis">
+                                name="jenis_edit" id="jenis" data-placeholder="Pilih Jenis">
                                 <option value="">Pilih...</option>
                                 <option value="Baju">Baju</option>
                                 <option value="Hoddie">Hoddie</option>
@@ -180,7 +194,13 @@
                         </div> --}}
                         <div class="">
                             <label for="nama_paket" class="block mb-2 text-sm font-medium text-gray-900">Nama Paket</label>
-                            <input type="text" id="nama_paket" name="nama_paket"
+                            <input type="text" id="nama_paket" name="nama_paket" required
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Masukan Nama Paket disini...">
+                        </div>
+                        <div class="">
+                            <label for="harga" class="block mb-2 text-sm font-medium text-gray-900">Harga</label>
+                            <input type="text" id="harga" name="harga" required
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Masukan Nama Paket disini...">
                         </div>
@@ -195,6 +215,22 @@
             </div>
         </div>
     </div>
+
+    @if (Session::has('message'))
+    <script>
+        swal("Message", "{{ Session::get('message') }}", "success", {
+            button: "oke",
+            timer: 3000,
+        });
+    </script>
+@elseif (Session::has('message_update'))
+    <script>
+        swal("Message", "{{ Session::get('message_update') }}", "success", {
+            button: "oke",
+            timer: 3000,
+        });
+    </script>
+@endif
 </x-app-layout>
 <script>
     const editSourceModal = (button) => {
@@ -204,6 +240,7 @@
         const id_outlet = button.dataset.id_outlet;
         const jenis = button.dataset.jenis;
         const nama_paket = button.dataset.nama_paket;
+        const harga = button.dataset.harga;
 
         let url = "{{ route('paket.update', ':id') }}".replace(':id', id);
 
@@ -217,7 +254,11 @@
         document.querySelector('[name="id_outlet_edit"]').dispatchEvent(event);
 
         document.getElementById('nama_paket').value = nama_paket;
-        document.getElementById('jenis').value = jenis;
+
+        document.querySelector('[name="jenis_edit"]').value = jenis;
+        document.querySelector('[name="jenis_edit"]').dispatchEvent(event);
+
+        document.getElementById('harga').value = harga;
 
         document.getElementById('formSourceButton').innerText = 'Simpan';
         document.getElementById('formSourceModal').setAttribute('action', url);
@@ -242,21 +283,30 @@
     }
 
     const paketDelete = async (id, outlet) => {
-        let tanya = confirm(`Apakah anda yakin untuk menghapus PAKET ${outlet} ?`);
-        if (tanya) {
-            await axios.post(`/paket/${id}`, {
-                    '_method': 'DELETE',
-                    '_token': $('meta[name="csrf-token"]').attr('content')
-                })
-                .then(function(response) {
-                    // Handle success
-                    location.reload();
-                })
-                .catch(function(error) {
-                    // Handle error
-                    alert('Error deleting record');
-                    console.log(error);
-                });
-        }
+        swal({
+            title: "Konfirmasi",
+            text: `Apakah anda yakin untuk menghapus PAKET ${outlet} ?`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then(async (willDelete) => {
+            if (willDelete) {
+                try {
+                    await axios.post(`/paket/${id}`, {
+                        '_method': 'DELETE',
+                        '_token': $('meta[name="csrf-token"]').attr('content')
+                    });
+                    swal("Message", "Paket berhasil dihapus!", "success", {
+                        button: "oke",
+                    }).then(() => {
+                        location.reload();
+                    });
+                } catch (error) {
+                    swal("Message", "Paket gagal dihapus!", "error", {
+                        button: "oke",
+                    });
+                }
+            } 
+        });
     }
 </script>

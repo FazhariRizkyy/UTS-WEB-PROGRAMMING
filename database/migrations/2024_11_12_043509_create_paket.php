@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('id_outlet');
             $table->string('jenis');
             $table->string('nama_paket');
+            $table->integer('harga');
             $table->timestamps();
         });
     }

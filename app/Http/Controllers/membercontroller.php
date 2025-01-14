@@ -12,10 +12,10 @@ class membercontroller extends Controller
      */
     public function index()
     {
-        $member = member::paginate(5);
-        return view('page.member.index')->with([
+        $member = member::all();
+        return response()->json([
             'member' => $member,
-    ]);
+        ]);
     }
 
     /**
@@ -37,8 +37,11 @@ class membercontroller extends Controller
             'jenis_kelamin' => $request->input('jenis_kelamin')
         ];
 
-        member::create($data);
-        return back()->with('message_delete', 'Data Member Sudah dibuat');
+        Member::create($data);
+
+        return response()->json([
+            'message_update' => "Data Added!"
+        ]);
     }
 
     /**
@@ -61,37 +64,51 @@ class membercontroller extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-{
-    // Validasi data jika diperlukan
-    $request->validate([
-        'nama' => 'required|string|max:255',
-        'alamat' => 'required|string|max:255',
-        'jenis_kelamin' => 'required|string|max:10', // Sesuaikan dengan kebutuhan
-    ]);
+    {
+        // Validasi data jika diperlukan
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|string|max:10', // Sesuaikan dengan kebutuhan
+        ]);
 
-    // Temukan member berdasarkan ID
-    $member = member::findOrFail($id);
+        // Temukan member berdasarkan ID
+        $member = member::findOrFail($id);
 
-    // Data yang ingin diperbarui
-    $data = [
-        'nama' => $request->input('nama'),
-        'alamat' => $request->input('alamat'),
-        'jenis_kelamin' => $request->input('jenis_kelamin')
-    ];
+        // Data yang ingin diperbarui
+        $data = [
+            'nama' => $request->input('nama'),
+            'alamat' => $request->input('alamat'),
+            'jenis_kelamin' => $request->input('jenis_kelamin')
+        ];
 
-    // Memperbarui member
-    $member->update($data);
+        // Memperbarui member
+        $datas = Member::where('id', $id)->first();
+        $member->update($data);
 
-    return back()->with('message_delete', 'Data Member Sudah diupdate');
-}
+        return response()->json([
+            'message_update' => "Data Updated!"]);
+    }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $data = member::findOrFail($id);
-        $data->delete();
-        return back()->with('message_delete','Data Member Sudah dihapus');
+        try {
+            $data = member::findOrFail($id);
+            $data = Member::where('id', $id)->first();
+
+            $data->delete();
+
+            return response()->json([
+                'message_delete' => "Data Deleted!"
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to delete data.',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Detail_TransaksiController;
+use App\Http\Controllers\laporanPenjualanController;
 use App\Http\Controllers\membercontroller;
 use App\Http\Controllers\OutletController;
 use App\Http\Controllers\PaketController;
@@ -29,5 +30,7 @@ Route::resource('users', UsersController::class)->middleware('auth');
 Route::resource('member', membercontroller::class)->middleware('auth');
 Route::resource('outlet', OutletController::class)->middleware('auth');
 Route::resource('paket', PaketController::class)->middleware('auth');
+Route::get('/paket/paket_name/{id}', [PaketController::class, 'getPaket']);
+Route::resource('laporanPenjualan', laporanPenjualanController::class)->middleware('auth');
 
 require __DIR__.'/auth.php';

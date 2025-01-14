@@ -1,20 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-900 leading-tight">
-            {{ __('OUTLET') }}  <!-- Judul Dashboard -->
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-800 leading-tight">
+            {{ __('OUTLET') }} <!-- Judul Dashboard -->
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-4 text-white font-bold text-2xl mx-auto">
-                    <div>DATA OUTLET</div>  <!-- Judul Data -->
+                <div class="p-4 text-white dark:text-gray-100">
+                    <div>DATA OUTLET</div> <!-- Judul Data -->
                 </div>
-                <div class="p-6 text-gray-900 dark:text-gray-900 flex gap-5">
+                <div class="p-6 text-gray-200 dark:text-gray-100 flex gap-5">
                     {{-- FORM ADD OUTLET --}}
-                    <div class="w-full bg-gray-900 p-4 rounded-xl">
-                        <div class="mb-5 text-white">
+                    <div class="w-full bg-gray-500 p-4 rounded-xl">
+                        <div class="mb-5">
                             INPUT DATA OUTLET <!-- Judul Form -->
                         </div>
                         <form action="{{ route('outlet.store') }}" method="post">
@@ -22,13 +22,13 @@
                             <div class="mb-5">
                                 <label for="base-input"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
-                                <input name="nama" type="text" id="base-input"
+                                <input name="nama" type="text" id="base-input" required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             </div>
                             <div class="mb-5">
                                 <label for="base-input"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alamat</label>
-                                <input name="alamat" type="text" id="base-input"
+                                <input name="alamat" type="text" id="base-input" required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             </div>
                             <button type="submit"
@@ -68,22 +68,20 @@
                                                 {{ $outlet->perPage() * ($outlet->currentPage() - 1) + $key + 1 }}
                                             </th>
                                             <td class="px-6 py-4">
-                                                {{ $k->nama }}  <!-- Nama Outlet -->
+                                                {{ $k->nama }} <!-- Nama Outlet -->
                                             </td>
                                             <td class="px-6 py-4">
-                                                {{ $k->alamat }}  <!-- Alamat Outlet -->
+                                                {{ $k->alamat }} <!-- Alamat Outlet -->
                                             </td>
                                             <td class="px-6 py-4">
                                                 <button type="button" data-id="{{ $k->id }}"
-                                                    data-modal-target="sourceModal"
-                                                    data-nama="{{ $k->nama }}"
-                                                    data-alamat="{{ $k->alamat }}"
-                                                    onclick="editSourceModal(this)"
+                                                    data-modal-target="sourceModal" data-nama="{{ $k->nama }}"
+                                                    data-alamat="{{ $k->alamat }}" onclick="editSourceModal(this)"
                                                     class="bg-amber-500 hover:bg-amber-600 px-3 py-1 rounded-md text-xs text-white">
                                                     Edit
                                                 </button>
                                                 <button
-                                                    onclick="return outletDelete('{{ $k->id }}','{{ $k->nama  }}')"
+                                                    onclick="return outletDelete('{{ $k->id }}','{{ $k->nama }}')"
                                                     class="bg-red-500 hover:bg-red-300 px-3 py-1 rounded-md text-xs text-white">Delete</button>
                                             </td>
                                         </tr>
@@ -92,7 +90,7 @@
                             </table>
                         </div>
                         <div class="mt-4">
-                            {{ $outlet->links() }}  <!-- Pagination Outlet -->
+                            {{ $outlet->links() }} <!-- Pagination Outlet -->
                         </div>
                     </div>
                 </div>
@@ -117,18 +115,16 @@
                     @csrf
                     <div class="flex flex-col p-4 space-y-6">
                         <div class="">
-                            <label for="text"
-                                class="block mb-2 text-sm font-medium text-gray-900">Nama</label>
-                            <input type="text" id="nama" name="nama"
+                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900">Nama</label>
+                            <input type="text" id="nama" name="nama" required
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Masukan Nama disini...">
                         </div>
                     </div>
                     <div class="flex flex-col p-4 space-y-6">
                         <div class="">
-                            <label for="text"
-                                class="block mb-2 text-sm font-medium text-gray-900">Alamat</label>
-                            <input type="text" id="alamat" name="alamat"
+                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900">Alamat</label>
+                            <input type="text" id="alamat" name="alamat" required
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Masukan Alamat disini...">
                         </div>
@@ -144,87 +140,115 @@
         </div>
     </div>
 
-<script>
-    // Fungsi untuk menambahkan outlet baru
-    const functionAdd = () => {
-        const formModal = document.getElementById('formSourceModal');
-        const modal = document.getElementById('sourceModal');
+    @if (Session::has('message'))
+        <script>
+            swal("Message", "{{ Session::get('message') }}", "success", {
+                button: "oke",
+                timer: 3000,
+            });
+        </script>
+    @elseif (Session::has('message_update'))
+        <script>
+            swal("Message", "{{ Session::get('message_update') }}", "success", {
+                button: "oke",
+                timer: 3000,
+            });
+        </script>
+    @endif
 
-        // Set form action URL
-        let url = "{{ route('outlet.store') }}";
-        document.getElementById('title_source').innerText = "Add Outlet";  // Ubah judul menjadi "Add Outlet"
-        formModal.setAttribute('action', url);
+    <script>
+        // Fungsi untuk menambahkan outlet baru
+        const functionAdd = () => {
+            const formModal = document.getElementById('formSourceModal');
+            const modal = document.getElementById('sourceModal');
 
-        // Tampilkan modal
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
+            // Set form action URL
+            let url = "{{ route('outlet.store') }}";
+            document.getElementById('title_source').innerText = "Add Outlet"; // Ubah judul menjadi "Add Outlet"
+            formModal.setAttribute('action', url);
 
-        // Pastikan token CSRF ditambahkan sekali
-        if (!formModal.querySelector('input[name="_token"]')) {
-            let csrfToken = document.createElement('input');
-            csrfToken.setAttribute('type', 'hidden');
-            csrfToken.setAttribute('name', '_token');
-            csrfToken.setAttribute('value', '{{ csrf_token() }}');
-            formModal.appendChild(csrfToken);
-        }
-    }
+            // Tampilkan modal
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
 
-    const editSourceModal = (button) => {
-        const formModal = document.getElementById('formSourceModal');
-        const modalTarget = button.dataset.modalTarget;
-        const id = button.dataset.id;
-        const nama = button.dataset.nama;
-        const alamat = button.dataset.alamat;
-
-        let url = "{{ route('outlet.update', ':id') }}".replace(':id', id);
-
-        document.getElementById('title_source').innerText = `Update Outlet ${nama}`;  // Update judul modal
-
-        document.getElementById('nama').value = nama;  // Set nilai nama
-        document.getElementById('alamat').value = alamat;  // Set nilai alamat
-
-        formModal.setAttribute('action', url);
-
-        if (!formModal.querySelector('input[name="_token"]')) {
-            let csrfToken = document.createElement('input');
-            csrfToken.setAttribute('type', 'hidden');
-            csrfToken.setAttribute('name', '_token');
-            csrfToken.setAttribute('value', '{{ csrf_token() }}');
-            formModal.appendChild(csrfToken);
+            // Pastikan token CSRF ditambahkan sekali
+            if (!formModal.querySelector('input[name="_token"]')) {
+                let csrfToken = document.createElement('input');
+                csrfToken.setAttribute('type', 'hidden');
+                csrfToken.setAttribute('name', '_token');
+                csrfToken.setAttribute('value', '{{ csrf_token() }}');
+                formModal.appendChild(csrfToken);
+            }
         }
 
-        if (!formModal.querySelector('input[name="_method"]')) {
-            let methodInput = document.createElement('input');
-            methodInput.setAttribute('type', 'hidden');
-            methodInput.setAttribute('name', '_method');
-            methodInput.setAttribute('value', 'PATCH');
-            formModal.appendChild(methodInput);
+        const editSourceModal = (button) => {
+            const formModal = document.getElementById('formSourceModal');
+            const modalTarget = button.dataset.modalTarget;
+            const id = button.dataset.id;
+            const nama = button.dataset.nama;
+            const alamat = button.dataset.alamat;
+
+            let url = "{{ route('outlet.update', ':id') }}".replace(':id', id);
+
+            document.getElementById('title_source').innerText = `Update Outlet ${nama}`; // Update judul modal
+
+            document.getElementById('nama').value = nama; // Set nilai nama
+            document.getElementById('alamat').value = alamat; // Set nilai alamat
+
+            formModal.setAttribute('action', url);
+
+            if (!formModal.querySelector('input[name="_token"]')) {
+                let csrfToken = document.createElement('input');
+                csrfToken.setAttribute('type', 'hidden');
+                csrfToken.setAttribute('name', '_token');
+                csrfToken.setAttribute('value', '{{ csrf_token() }}');
+                formModal.appendChild(csrfToken);
+            }
+
+            if (!formModal.querySelector('input[name="_method"]')) {
+                let methodInput = document.createElement('input');
+                methodInput.setAttribute('type', 'hidden');
+                methodInput.setAttribute('name', '_method');
+                methodInput.setAttribute('value', 'PATCH');
+                formModal.appendChild(methodInput);
+            }
+
+            document.getElementById(modalTarget).classList.remove('hidden');
         }
 
-        document.getElementById(modalTarget).classList.remove('hidden');
-    }
-
-    const sourceModalClose = () => {
-        document.getElementById('sourceModal').classList.add('hidden');  // Sembunyikan modal
-    }
-
-    const outletDelete = async (id, outlet) => {
-        let tanya = confirm(`Apakah anda yakin untuk menghapus Outlet ${outlet} ?`);
-        if (tanya) {
-            await axios.post(`/outlet/${id}`, {
-                    '_method': 'DELETE',
-                    '_token': $('meta[name="csrf-token"]').attr('content')
-                })
-                .then(function(response) {
-                    // Handle success
-                    location.reload();
-                })
-                .catch(function(error) {
-                    // Handle error
-                    alert('Error deleting record');
-                    console.log(error);
-                });
+        const sourceModalClose = () => {
+            document.getElementById('sourceModal').classList.add('hidden'); // Sembunyikan modal
         }
-    }
-</script>
+
+        const outletDelete = async (id, outlet) => {
+            swal({
+                title: "Konfirmasi",
+                text: `Apakah anda yakin untuk menghapus OUTLET ${outlet} ?`,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then(async (willDelete) => {
+                if (willDelete) {
+                    try {
+                        await axios.post(`/outlet/${id}`, {
+                            '_method': 'DELETE',
+                            '_token': $('meta[name="csrf-token"]').attr('content')
+                        });
+                        // Menampilkan pesan sukses setelah penghapusan
+                        swal("Message", "Outlet berhasil dihapus!", "success", {
+                            button: "Oke",
+                        }).then(() => {
+                            location.reload(); // Reload halaman setelah menutup modal
+                        });
+                    } catch (error) {
+                        // Menampilkan pesan gagal jika terjadi kesalahan
+                        swal("Message", "Outlet gagal dihapus!", "error", {
+                            button: "Oke",
+                        });
+                        console.error("Error:", error);
+                    }
+                }
+            });
+        };
+    </script>
 </x-app-layout>

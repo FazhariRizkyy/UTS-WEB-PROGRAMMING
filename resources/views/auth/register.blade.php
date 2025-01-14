@@ -39,6 +39,28 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
+        <div class="mb-5 mt-4">
+            <label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Role</label>
+            <select class="js-example-placeholder-single js-states form-control w-full m-6 p-3" name="role"
+                data-placeholder="Pilih role" required>
+                <option value="">Pilih...</option>
+                <option value="A">ADMIN</option>
+                <option value="K">KASIR</option>
+            </select>
+        </div>
+
+        <div class="mb-5 mt-4">
+            <label for="outlet" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Outlet</label>
+            <select class="js-example-placeholder-single js-states form-control w-full m-6 p-3" name="id_outlet"
+                data-placeholder="Pilih Outlet" >
+                <option value="">Pilih...</option>
+                @foreach ($outlet as $o)
+                    <option value="{{ $o->id }}">
+                        {{ $o->nama }}</option>
+                @endforeach
+            </select>
+        </div>
+
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
                 {{ __('Already registered?') }}

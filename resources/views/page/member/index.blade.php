@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-900 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('MEMBER') }}
         </h2>
     </x-slot>
@@ -9,11 +9,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-4">
-                    <div class="text-white font-bold text-2xl mx-auto">DATA MEMBER</div>
+                    <div >DATA MEMBER</div>
                 </div>
                 <div class="p-6 text-gray-900 dark:text-gray-100 flex gap-5">
                     {{-- FORM ADD MEMBER --}}
-                    <div class="w-full bg-gray-900 rounded-xl flex flex-col p-4 space-y-6">
+                    <div class="w-full bg-gray-100 rounded-xl p-4 ">
                         <div class="mb-5">
                             INPUT DATA MEMBER
                         </div>
@@ -162,6 +162,23 @@
         </div>
     </div>
 </x-app-layout>
+
+@if (Session::has('message'))
+    <script>
+        swal("Message", "{{ Session::get('message') }}", "success", {
+            button: "oke",
+            timer : 3000,
+        });
+    </script>
+@elseif (Session::has('message_update'))
+    <script>
+        swal("Message", "{{ Session::get('message_update') }}", "success", {
+            button: "oke",
+            timer : 3000,
+        });
+    </script>
+@endif
+
 <script>
     const editSourceModal = (button) => {
         const formModal = document.getElementById('formSourceModal');
@@ -203,21 +220,32 @@
     }
 
     const memberDelete = async (id, member) => {
-        let tanya = confirm(`Apakah anda yakin untuk menghapus Member ${member} ?`);
-        if (tanya) {
-            await axios.post(`/member/${id}`, {
-                    '_method': 'DELETE',
-                    '_token': $('meta[name="csrf-token"]').attr('content')
-                })
-                .then(function(response) {
-                    // Handle success
-                    location.reload();
-                })
-                .catch(function(error) {
-                    // Handle error
-                    alert('Error deleting record');
-                    console.log(error);
-                });
-        }
+        swal({
+            title: "Konfirmasi",
+            text: `Apakah anda yakin untuk menghapus MEMBER ${member} ?`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then(async (willDelete) => {
+            if (willDelete) {
+                try {
+                    await axios.post(`/member/${id}`, {
+                        '_method': 'DELETE',
+                        '_token': $('meta[name="csrf-token"]').attr('content')
+                    });
+                    // Menampilkan pesan sukses setelah penghapusan
+                    swal("Message", "Data berhasil dihapus!", "success", {
+                        button: "oke",
+                    }).then(() => {
+                        location.reload(); // Reload halaman setelah menutup modal
+                    });
+                } catch (error) {
+                    // Menampilkan pesan gagal jika terjadi kesalahan
+                    swal("Message", "Data gagal dihapus!", "error", {
+                        button: "oke",
+                    });
+                }
+            } 
+        });
     }
 </script>

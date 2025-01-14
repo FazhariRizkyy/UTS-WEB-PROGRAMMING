@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Detail_Transaksi;
+use App\Models\member;
+use App\Models\Outlet;
+use App\Models\Paket;
 use App\Models\Transaksi;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class TransaksiController extends Controller
 {
@@ -13,9 +20,15 @@ class TransaksiController extends Controller
     public function index()
     {
         $transaksi = Transaksi::paginate(5);
+        $outlet = Outlet::all();
+        $member = member::all();
+        $user = User::all();
         return view('page.transaksi.index')->with([
             'transaksi' => $transaksi,
-    ]);
+            'outlet' => $outlet,
+            'member' => $member,
+            'user' => $user
+        ]);
     }
 
     /**
@@ -23,9 +36,16 @@ class TransaksiController extends Controller
      */
     public function create()
     {
-        $transaksi = Transaksi::all();
-        return view('page.transaksi.create')->with([
-            'transaksi' => $transaksi
+        $member = Member::all();
+        $outlet = Outlet::all();
+        $paket = Paket::all();
+        $user = User::all();
+        $kodeInovice = Transaksi::createCode();
+        return view('page.transaksi.create', compact('kodeInovice'))->with([
+            'member' => $member,
+            'outlet' => $outlet,
+            'paket' => $paket,
+            'user' => $user,
         ]);
     }
 
@@ -34,23 +54,41 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
+        $kode_transaksi = $request->input('kode_invoice');
+
+        $paket = $request->input('paket', []);
+        foreach ($paket as $index => $p) {
+
+            $dataDetail = [
+                'id_transaksi' => $kode_transaksi,
+                'id_paket' => $p,
+                'qty' => $request->qty[$index],
+                'keterangan' => '',
+            ];
+            Detail_Transaksi::create($dataDetail);
+        }
+
         $data = [
             'id_outlet' => $request->input('id_outlet'),
             'kode_invoice' => $request->input('kode_invoice'),
             'id_member' => $request->input('id_member'),
             'tanggal' => $request->input('tanggal'),
             'batas_waktu' => $request->input('batas_waktu'),
-            'tgl_bayar' => $request->input('tgl_bayar'),
+            'tgl_bayar' => null,
             'biaya_tambahan' => $request->input('biaya_tambahan'),
             'diskon' => $request->input('diskon'),
             'pajak' => $request->input('pajak'),
             'status' => $request->input('status'),
-            'dibayar' => $request->input('dibayar'),
-            'id_user' => $request->input('id_user')
+            'dibayar' => 'belum dibayar',
+            'id_user' => Auth::user()->id,
+            'total_bayar' => $request->input('total_bayar')
         ];
 
         Transaksi::create($data);
-        return back()->with('message_delete', 'Data Transaksi Sudah dibuat');
+
+        return redirect()
+            ->route('transaksi.index')
+            ->with('message', 'Data Berhasil ditambahkan');
     }
 
     /**
@@ -74,24 +112,17 @@ class TransaksiController extends Controller
      */
     public function update(Request $request, string $id)
     {   
+        $dibayar = $request->input('dibayar');
+
+        // Menentukan data yang akan diupdate
         $data = [
-            'id_outlet' => $request->input('id_outlet'),
-            'kode_invoice' => $request->input('kode_invoice'),
-            'id_member' => $request->input('id_member'),
-            'tanggal' => $request->input('tanggal'),
-            'batas_waktu' => $request->input('batas_waktu'),
-            'tgl_bayar' => $request->input('tgl_bayar'),
-            'biaya_tambahan' => $request->input('biaya_tambahan'),
-            'diskon' => $request->input('diskon'),
-            'pajak' => $request->input('pajak'),
-            'status' => $request->input('status'),
-            'dibayar' => $request->input('dibayar'),
-            'id_user' => $request->input('id_user')
+            'tgl_bayar' => $dibayar === "dibayar" ? date('Y-m-d') : null,
+            'dibayar' => $dibayar,
         ];
 
         $datas = Transaksi::findOrFail($id);
         $datas->update($data);
-        return back()->with('message_delete', 'Data Transaksi Sudah diupdate');
+        return back()->with('message_update', 'Data Transaksi Berhasil Diubah');
     }
 
     /**

@@ -18,13 +18,14 @@ return new class extends Migration
             $table->integer('id_member');
             $table->date('tanggal');
             $table->dateTime('batas_waktu');
-            $table->dateTime('tgl_bayar');
+            $table->dateTime('tgl_bayar')->nullable();
             $table->integer('biaya_tambahan');
             $table->integer('diskon');
             $table->integer('pajak');
             $table->string('status');
             $table->string('dibayar');
             $table->integer('id_user');
+            $table->integer('total_bayar');
             $table->timestamps();
         });
     }

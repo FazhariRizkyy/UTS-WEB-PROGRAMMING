@@ -38,11 +38,12 @@ class PaketController extends Controller
             'id_outlet' => $request->input('id_outlet'),
             'jenis' => $request->input('jenis'),
             'nama_paket' => $request->input('nama_paket'),
+            'harga' => $request->input('harga'),
         ];
 
         paket::create($data);
 
-        return back()->with('message_delete', 'Data Paket Sudah dihapus');
+        return back()->with('message', 'Data Paket Sudah ditambahkan');
     }
 
     /**
@@ -68,13 +69,14 @@ class PaketController extends Controller
     {
         $data = [
             'id_outlet' => $request->input('id_outlet_edit'),
-            'jenis' => $request->input('jenis'),
+            'jenis' => $request->input('jenis_edit'),
             'nama_paket' => $request->input('nama_paket'),
+            'harga' => $request->input('harga'),
         ];
 
         $datas = paket::findOrFail($id);
         $datas->update($data);
-        return back()->with('message_delete', 'Data Paket Sudah dihapus');
+        return back()->with('message_update', 'Data Paket Sudah diupdate');
     }
 
     /**
@@ -85,5 +87,14 @@ class PaketController extends Controller
         $data = Paket::findOrFail($id);
         $data->delete();
         return back()->with('message_delete','Data paket Sudah dihapus');
+    }
+
+    public function getPaket($id)
+    {
+        $paket = paket::where('id', $id)->first();
+
+        return $paket
+            ? response()->json(['paket' => $paket])
+            : response()->json(['message' => 'paket tidak ditemukan'], 404);
     }
 }

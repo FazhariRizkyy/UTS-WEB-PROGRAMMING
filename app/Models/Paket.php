@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Paket extends Model
@@ -10,6 +11,7 @@ class Paket extends Model
         'id_outlet',
         'jenis',
         'nama_paket',
+        'harga'
     ];
 
     protected $table = 'paket';
